@@ -7,23 +7,23 @@
     name: gitlab-runner
     state: latest
 
-- name: Register Docker Gitlab Runner For Dev
+- name: Register Shell Gitlab Runner For Dev
   include_tasks: './runner.yaml'
   vars:
-    - from_file: "templates/docker.j2"
+    - from_file: "templates/shell.j2"
     - env: "dev"
   when: "'dev' in group_names"
 
-- name: Register Docker Gitlab Runner For Builder
+- name: Register Shell Gitlab Runner For Builder
   include_tasks: './runner.yaml'
   vars:
-    - from_file: "templates/docker.j2"
+    - from_file: "templates/shell.j2"
     - env: "builder"
   when: "'builder' in group_names"
 
-- name: Register Docker Gitlab Runner For Prod
+- name: Register Shell Gitlab Runner For Prod
   include_tasks: './runner.yaml'
   vars:
-    - from_file: "templates/docker.j2"
+    - from_file: "templates/shell.j2"
     - env: "prod"
   when: "'prod' in group_names"

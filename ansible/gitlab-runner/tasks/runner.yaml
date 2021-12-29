@@ -4,7 +4,7 @@
     api_token: "{{ gitlab_api_token }}"
     registration_token: "{{ gitlab_runner_token }}"
     api_url: "https://gitlab.com/"
-    description: "{{ env }} docker executor"
+    description: "{{ env }} executor"
     state: absent
     active: true
     tag_list: [ "{{ env }}" ]
@@ -16,7 +16,7 @@
     api_token: "{{ gitlab_api_token }}"
     registration_token: "{{ gitlab_runner_token }}"
     api_url: "https://gitlab.com/"
-    description: "{{ env }} docker executor"
+    description: "{{ env }} executor"
     state: present
     active: true
     tag_list: [ "{{ env }}" ]
