@@ -1,0 +1,34 @@
+---
+- name: Delete Runner If exists
+  gitlab_runner:
+    api_token: "{{ gitlab_api_token }}"
+    registration_token: "{{ gitlab_runner_token }}"
+    api_url: "https://gitlab.com/"
+    description: "{{ env }} docker executor"
+    state: absent
+    active: true
+    tag_list: [ "{{ env }}" ]
+    owned: true
+    run_untagged: False
+    locked: false
+
+- gitlab_runner:
+    api_token: "{{ gitlab_api_token }}"
+    registration_token: "{{ gitlab_runner_token }}"
+    api_url: "https://gitlab.com/"
+    description: "{{ env }} docker executor"
+    state: present
+    active: true
+    tag_list: [ "{{ env }}" ]
+    owned: true
+    run_untagged: False
+    locked: false
+  register: runner_output
+
+- lineinfile:
+    path: '/etc/gitlab-runner/config.toml'
+    line: "{{ lookup('template', from_file) }}"
+    insertafter: EOF
+  vars:
+    - runner_token: "{{ runner_output.runner.token }}"
+  when: runner_output.runner.token is defined

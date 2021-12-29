@@ -1,0 +1,29 @@
+---
+- name: Add The Official GitLab Repository
+  shell: 'curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash'
+
+- name: Install Gitlab Runner
+  apt:
+    name: gitlab-runner
+    state: latest
+
+- name: Register Docker Gitlab Runner For Dev
+  include_tasks: './runner.yaml'
+  vars:
+    - from_file: "templates/docker.j2"
+    - env: "dev"
+  when: "'dev' in group_names"
+
+- name: Register Docker Gitlab Runner For Builder
+  include_tasks: './runner.yaml'
+  vars:
+    - from_file: "templates/docker.j2"
+    - env: "builder"
+  when: "'builder' in group_names"
+
+- name: Register Docker Gitlab Runner For Prod
+  include_tasks: './runner.yaml'
+  vars:
+    - from_file: "templates/docker.j2"
+    - env: "prod"
+  when: "'prod' in group_names"
